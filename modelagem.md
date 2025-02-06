@@ -1,5 +1,14 @@
 # Modelagem do Problema de Minimização da Propagação de Fake News
 
+A disseminação de notícias falsas, ou popularmente conhecidas como *fake news*, é um problema gravíssimo que está literalmente ao alcance dos nossos dedos. De acordo com uma matéria publicada no *Journal da USP*¹, entre 21 países pesquisados, o Brasil possui a população com maior dificuldade em identificar *fake news*. 
+Uma forma de coibir que tais notícias sejam propagadas é criar mecanismos de atraso na difusão de pacotes de dados pouco confiáveis nas redes de computadores. Para tanto, suponha que uma mensagem classificada como suspeita por meio de uma rede neural seja enviada através de um vértice $s \in V$ de uma rede modelada por um grafo direcionado $G(V, E)$. O conjunto de vértices $V$ corresponde aos servidores que processam as informações, enquanto os arcos $(u,v) \in E$ são os enlaces de comunicação entre os servidores $u,v$. Deseja-se reduzir o número de servidores em que a notícia falsa pode se encontrar após um período de tempo igual a $T$.
+
+A propagação de uma informação no enlace $(u, v) \in E$ possui tempo estimado igual a $t_{uv}$. O Setor de Tecnologia da Informação (STI) do governo federal possui recursos (*softwares* auxiliares, por exemplo) tecnológicos que podem ser aplicados aos servidores para retardar o tempo de *broadcast* da *fake news*. Assim, caso o servidor $u$ possua algum dos $\alpha$ recursos instalados, o tempo de transmissão da *fake news* no enlace $(u, v)$ seria $t_{uv} + \delta$, em que $\delta > 0$ representa um atraso de propagação. Cada um dos $i = 1, \dots, \alpha$ recursos fica disponível no instante $\beta_i$.
+
+A solução do problema consiste em determinar a designação dos recursos aos servidores. Cada servidor receberá, no máximo, um recurso. Considera-se que um recurso $i$ é alocado no menor tempo $\beta_i$. O objetivo definido é a minimização da quantidade de servidores em que a *fake news* poderia chegar em um tempo menor ou igual a $T$.
+
+¹ Matéria: [Relatório da OCDE mostra que brasileiros são os piores em identificar notícias falsas](https://jornal.usp.br/radio-usp/relatorio-da-ocde-mostra-que-brasileiros-sao-os-piores-em-identificar-noticias-falsas/).
+
 ## 1. Definição do Problema
 Dado um grafo direcionado $G(V, E)$, onde:
 - Cada vértice $v \in V$ representa um servidor.
@@ -81,21 +90,6 @@ $$
 
 ---
 
-<!-- ### 3. Tempo de propagação considerando os recursos $x_v$
-Se o servidor $u$ está infectado, o tempo mínimo de infecção do servidor $v$ depende do tempo de propagação $t_{uv}$ e do possível atraso $\delta$ se $x_u = 1$:
-
-$$
-t_{v,s} \geq t_{u,s} + t_{uv} + x_u \cdot \delta, \quad \forall (u,v) \in E, \forall s \in V
-$$
-
-Se um servidor recebe a fake news depois do tempo limite $T$, então ele não é infectado:
-
-$$
-y_{v,s} = 0, \quad \forall v \in V, \forall s \in V \text{ se } t_{v,s} > T
-$$ 
-
-[Restrição Não Linearizada] -->
-
 ### 3. Tempo de propagação considerando os recursos $x_v$
 Se o servidor $u$ está infectado, o tempo mínimo de infecção do servidor $v$ depende do tempo de propagação $t_{uv}$ e do possível atraso $\delta$ se $x_u = 1$:
 
@@ -118,9 +112,6 @@ Onde:
 - $\gamma_{v,s}$ é uma variável binária que indica se $t_{v,s}$ ultrapassou $T$:
   - Se $t_{v,s} > T$, então $\gamma_{v,s} = 1$ e $y_{v,s} = 0$, garantindo que o servidor não seja infectado.
   - Se $t_{v,s} \leq T$, então $\gamma_{v,s}$ pode ser 0 e $y_{v,s}$ pode ser ativado conforme necessário.
-
-
-
 
 ---
 
